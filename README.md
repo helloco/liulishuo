@@ -7,7 +7,7 @@
 <h3>这种方案有不足，例如如果用户停在一个页面很久（大于20分钟），不操作，我们后台crontab的脚本也判定用户离线了，因此这个方案不是一个精确的统计方案</h3>
 
 伪代码：
-  
+```
 class commonAction extends Action(){   //基类，用户更新每次的访问时间（登入时间不变化）
   funtion _init(){   //初始化函数，每次访问执行此函数
     insert login_time to mysql;
@@ -32,4 +32,4 @@ class C extends commonAction{
 D E F 
 .
 .
-    
+```
