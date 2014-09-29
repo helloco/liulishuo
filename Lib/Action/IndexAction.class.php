@@ -6,6 +6,10 @@ class IndexAction extends Action {
 		
 		session_start();
 		$redis = new Redis();
+		if (!$redis) {
+			$this->redirect('/Public/error.html');
+			exit();
+		}
 		$redis->connect('127.0.0.1',6379);
 		if (!isset($_SESSION['name'])) {
 			
@@ -14,7 +18,7 @@ class IndexAction extends Action {
 				$redis->set('visitor_online_sum',1);
 			}else
 				$redis->incr('visitor_online_sum');
-			$this->assign('visitor_online_sum',$redis->get('visitor_online_sum'));
+			
 			
 		}else {
 			$User = M('User');
@@ -32,8 +36,9 @@ class IndexAction extends Action {
 			}else
 				$redis->incr('member_online_sum');
 			
-			$this->assign('member_online_sum',$redis->get('member_online_sum'));
 		}
+		$this->assign('visitor_online_sum',$redis->get('visitor_online_sum'));
+		$this->assign('member_online_sum',$redis->get('member_online_sum'));
     	$this->display('index');
     }
     
@@ -105,6 +110,11 @@ class IndexAction extends Action {
     
     public function logout(){
     	$redis = new Redis();
+    	if (!$redis) {
+    		$this->redirect('/Public/error.html');
+    		exit();
+    	}
+    	$redis->connect('127.0.0.1',6379);
     	$redis->decr('member_online_sum');
     	session_destroy();
     	$this->redirect('/Index/index');

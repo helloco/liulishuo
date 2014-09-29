@@ -1,10 +1,16 @@
 <ul>
-<li><a href="{:U('Index/registerView')}">注册</a></li>
+
+<if condition="($type eq 1)"> 欢迎您：{$_SESSION.name}   <li><a href="{:U('Index/logOut')}">注销</a></li>  
+ <else /> 
+ <li><a href="{:U('Index/registerView')}">注册</a></li>
 <li><a href="{:U('Index/loginView')}">登录</a></li>
-<li><a href="{:U('Index/logOut')}">注销</a></li>
+ </if>
+
+
 </ul>
 会员在线：{$member_online_sum}
-游客在线：
+<br>
+游客在线：{$visitor_online_sum}
 <br><br>
 <if condition="($type eq 1)"> 会员：{$_SESSION.name}    谢谢你登录了我们网站！您已经登录 {$login_times} 次，   共登录 {$login_total_times}分钟 
  <else /> 你好，陌生人！你没有登录，或者你还没有注册，但是你已经浏览这个页面 {M} 分钟了。
